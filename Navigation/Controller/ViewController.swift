@@ -16,7 +16,5 @@ class ViewController: UIViewController {
         self.navigationItem.title = "News"
 
     }
-
-
 }
 
