@@ -20,18 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         
-        let firstVC = ViewController()
-        let secondtVC = SecondViewController()
+        let profileVC = ProfileViewController()
+        let feedVC = FeedViewController()
         
-        let firstNavController = UINavigationController(rootViewController: firstVC)
-        let secondNavController = UINavigationController(rootViewController: secondtVC)
+        let profileNavController = UINavigationController(rootViewController: profileVC)
+        let feedNavController = UINavigationController(rootViewController: feedVC)
         
         
-        firstNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
-        secondNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
+        profileNavController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 0)
+        feedNavController.tabBarItem = UITabBarItem (title: "News", image: UIImage(systemName: "newspaper.fill"), tag: 0)
     
         
-        tabBarController.setViewControllers([firstNavController, secondNavController], animated: true)
+        tabBarController.setViewControllers([profileNavController, feedNavController], animated: true)
         
         self.window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
