@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
+<<<<<<< HEAD
         let tabBarController = UITabBarController()
         
         let profileVC = ProfileViewController()
@@ -24,6 +25,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         profileNavController.tabBarItem =  UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 0)
         
         tabBarController.setViewControllers([profileNavController], animated: true)
+=======
+        
+        
+        let tabBarController = UITabBarController()
+        
+        let profileVC = ProfileViewController()
+        let feedVC = FeedViewController()
+        
+        let profileNavController = UINavigationController(rootViewController: profileVC)
+        let feedNavController = UINavigationController(rootViewController: feedVC)
+        
+        
+        profileNavController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 0)
+        feedNavController.tabBarItem = UITabBarItem (title: "News", image: UIImage(systemName: "newspaper.fill"), tag: 0)
+    
+        
+        tabBarController.setViewControllers([profileNavController, feedNavController], animated: true)
+>>>>>>> 9666d7e9631cea5cb2714289c9e81df70adbbe0d
         
         self.window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
