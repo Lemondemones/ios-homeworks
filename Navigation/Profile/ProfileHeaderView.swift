@@ -5,102 +5,137 @@
 //  Created by Sergey Omelchenko on 27.09.2021.
 //
 
-import Foundation
 import UIKit
 
 class ProfileHeaderView: UIView {
     
-    var avatar: UIImageView = {
+    var avatarImageView: UIImageView = {
         let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.image = UIImage(named: "Avatar")
+        image.layer.borderWidth = 3
+        image.layer.cornerRadius = 50
         return image
     }()
     
-    var label: UILabel = {
-        let nameLabel = UILabel()
-        return nameLabel
+    
+    var fullNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text  = "Minus"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        return label
     }()
     
-    var button: UIButton = {
+    
+    
+    var statusLabel: UILabel = {
+        let statLabel = UILabel()
+        statLabel.translatesAutoresizingMaskIntoConstraints = false
+        statLabel.text = "Waiting for something"
+        statLabel.textColor = .gray
+        statLabel.font = UIFont.systemFont(ofSize: 15,weight: .regular)
+        return statLabel
+    }()
+    
+    
+    var statusTextField: UITextField = {
+        let statusTextField = UITextField()
+        statusTextField.translatesAutoresizingMaskIntoConstraints = false
+        statusTextField.layer.borderWidth = 1
+        statusTextField.layer.borderColor = UIColor.black.cgColor
+        statusTextField.layer.cornerRadius = 12
+        statusTextField.backgroundColor = .white
+        statusTextField.textColor = .black
+        statusTextField.placeholder = "Set status"
+        statusTextField.textColor = .black
+        return statusTextField
+    }()
+    
+    
+    var setStatusButton: UIButton = {
         let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 4
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowRadius = 4
+        button.setTitle("Show status", for: .normal)
+        button.setTitleColor(.lightGray, for: .highlighted)
+        button.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
+        return button
+        
+    }()
+    
+    var newButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .systemBlue
+        button.setTitle("New post", for: .normal)
+        button.setTitleColor(.lightGray, for: .highlighted)
         return button
     }()
     
-    var statusLabel: UILabel = {
-        let statusLabel = UILabel()
-        return statusLabel
-    }()
-    
-     func avatarBuild() {
-        avatar.translatesAutoresizingMaskIntoConstraints = false
-        avatar.clipsToBounds = true
-        avatar.image = UIImage(named: "Avatar")
-        avatar.layer.cornerRadius = 50
-        avatar.layer.borderWidth = 3
+    func setupConstrains() {
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+        guard let View = superview  else { return }
+
         NSLayoutConstraint.activate([
-            avatar.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-            avatar.topAnchor.constraint(equalTo: self.topAnchor, constant: 17),
-            avatar.widthAnchor.constraint(equalToConstant: 100),
-            avatar.heightAnchor.constraint(equalTo: avatar.widthAnchor)
+
+            self.leftAnchor.constraint(equalTo: View.safeAreaLayoutGuide.leftAnchor),
+            self.rightAnchor.constraint(equalTo: View.safeAreaLayoutGuide.rightAnchor),
+            self.topAnchor.constraint(equalTo: View.safeAreaLayoutGuide.topAnchor),
+            self.heightAnchor.constraint(equalToConstant: 220),
+
+
+            avatarImageView.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 100),
+            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
+            
+            setStatusButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            setStatusButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            
+ 
+            statusLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: 20),
+            statusLabel.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -35),
+
+            fullNameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: 20),
+            fullNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+
+            statusTextField.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: 20),
+            statusTextField.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -30),
+            
+            newButton.leftAnchor.constraint(equalTo: View.leftAnchor),
+            newButton.rightAnchor.constraint(equalTo: View.rightAnchor),
+            newButton.heightAnchor.constraint(equalToConstant: 40),
+            newButton.bottomAnchor.constraint(equalTo: View.safeAreaLayoutGuide.bottomAnchor)
         ])
+
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
-    func buttonBuild() {
-           button.translatesAutoresizingMaskIntoConstraints = false
-           button.backgroundColor = UIColor(cgColor: CGColor(red: 3/255, green: 120/255, blue: 255/255, alpha: 1))
-           button.layer.cornerRadius = 4
-           button.layer.shadowColor = UIColor.black.cgColor
-           button.layer.shadowOffset = CGSize(width: 4, height: 4)
-           button.layer.shadowOpacity = 0.7
-           button.layer.shadowRadius = 4
-           button.setTitle("Show status", for: .normal)
-           button.setTitleColor(.lightGray, for: .highlighted)
-           button.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
-           NSLayoutConstraint.activate([
-               button.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-               button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-               button.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 16),
-               button.heightAnchor.constraint(equalToConstant: 50)
-           ])
-   }
-
-     func statusLabelBuild() {
-            statusLabel.translatesAutoresizingMaskIntoConstraints = false
-            statusLabel.text = "Waiting for something"
-            statusLabel.textColor = .gray
-            statusLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-
-            NSLayoutConstraint.activate([
-                statusLabel.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 20),
-                statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34)
-            ])
+    func addView() {
+        self.addSubview(avatarImageView)
+        self.addSubview(fullNameLabel)
+        self.addSubview(statusTextField)
+        self.addSubview(statusLabel)
+        self.addSubview(setStatusButton)
+        self.addSubview(newButton)
+        self.setupConstrains()
     }
     
-    func LabelBuild() {
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "Minus"
-            label.textColor = .black
-            label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            NSLayoutConstraint.activate([
-                label.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 20),
-                label.topAnchor.constraint(equalTo: self.topAnchor, constant: 27)
-            ])
+    @objc func pressButton() {
+        if statusLabel.text != nil {
+        print(statusLabel.text!)
+        }
     }
-
-        func addView() {
-            self.addSubview(avatar)
-            avatarBuild()
-            self.addSubview(label)
-            LabelBuild()
-            self.addSubview(button)
-            buttonBuild()
-            self.addSubview(statusLabel)
-            statusLabelBuild()
-
-        }
-        @objc func pressButton(){
-            if statusLabel.text != nil {
-                print(statusLabel.text!)
-            }
-
-        }
 }
